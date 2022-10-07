@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project React</title>
+    <style>
+      img {
+        box-shadow: 50%;
+        border-radius: 50%;
+        width: 100%;
+        object-fit: cover;
+        cursor: pointer;
+      }
+      img.disabled {
+        border: 3px solid red;
+        opacity: 0.3;
+      }
+      picture {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        width: 100px;
+        margin-top: 3%;
+      }
+      picture.is-small {
+        width: 50px;
+      }
+      picture.is-large {
+        width: 200px;
+      }
+      span {
+        color: red;
+      }
+    </style>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <h1>Women in Tech</h1>
+    <div id="app">
+      <picture>
+        <img
+          src="https://randomuser.me/api/portraits/women/34.jpg"
+          alt="women"
+        />
+        Linda
+      </picture>
+      <picture>
+        <img
+          src="https://randomuser.me/api/portraits/women/45.jpg"
+          alt="women"
+        />
+        Daniela
+      </picture>
+    </div>
+    <script type="text/babel">
+      const $app = document.getElementById('app');
+      //   const h = React.createElement;
+      const { useState } = React;
+
+      const Avatar = ({id, name ='🧑🏻', size}) => {
+        console.log(useState);
+        const [enabled, setEnabled] = useState(true);
+
+        const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
+        // return h('img', { src });
+        const className = enabled ? '' : 'disabled';
+        const pictureClassName = size === 'small' ? 'is-small' : size === 'large' ? 'is-large' : '';
+        return (
+          <picture className={pictureClassName}>
+            {
+                id
+                ? (
+                    <img
+                      className={className}
+                      src={src}
+                      onClick={() => setEnabled(!enabled)}
+                    />
+                )
+                : (
+                <span>
+                    Sin Imagen
+                </span>
+                )
+            }
+            <em> { enabled ? name : 'Desactivada' } </em>
+          </picture>
+        );
+      };
+
+      ReactDOM.render(
+        <div>
+          <Avatar id={2} name="Eberlin" size="small" />
+          <Avatar id={3} name="K"  />
+          <Avatar id={83} name="Rubi" size="large"/>
+          <Avatar id={83} size="large"/>
+          <Avatar size="large" name="Sasy"/>
+        </div>,
+        $app
+      );
+
+      //   Sin React
+
+      /* const Avatar = (params) => {
+        const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
+        return `
+            <picture>
+                <img src="${src}">
+                <em>
+                    ${params.name}
+                </em>
+            </picture>
+            `;
+      };
+      $app.innerHTML += Avatar({ id: 66, name: 'Eberlin' });
+      $app.innerHTML += Avatar({ id: 67, name: 'K' });
+
+      $app.querySelectorAll('img').forEach((item) => {
+        item.addEventListener('click', () => {
+          item.classList.toggle('disabled');
+        });
+      });
+      */
+    </script>
+  </body>
+</html>
